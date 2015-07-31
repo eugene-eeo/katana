@@ -19,6 +19,6 @@ the parser would be the following:
     LALR parsers.
 
 - The tokens are then grouped according to the
-given patterns.
+  given patterns.
 - Second stage grouping where more complex patetrns
-can be resolved.
+  can be resolved.

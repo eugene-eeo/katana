@@ -10,7 +10,7 @@ the parser would be the following:
 
 - The text is tokenised.
 - "Simple" (no repetition) patterns are then stored
-in a trie. The reason a trie is used is because:
+  in a trie. The reason a trie is used is because:
   - Tries are a good datastructure to represent
     trees and get possibilities.
   - It is the only reasonable datastructure- the

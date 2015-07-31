@@ -6,32 +6,43 @@ from katana.trie import Trie
 @pytest.fixture
 def patterns():
     return Trie([
-        'abc',
-        'def',
-        'abcdef',
+        ['dollar', 'number'],
+        ['dollar', 'dollar', 'number'],
     ])
 
 
 def test_group_simple(patterns):
-    assert group('abc', patterns) == ([list('abc')], [])
-    assert group('def', patterns) == ([list('def')], [])
+    tokens = [
+        ['dollar', '$'],
+        ['number', '123'],
+    ]
+    groups, extra = group(tokens, patterns)
+    assert not extra
+    assert groups == [['dollar', 'number']]
 
 
 def test_group_prefers_longest(patterns):
-    groups, extra = group(
-        'abcdef',
-        patterns,
-    )
+    tokens = [
+        ['dollar', '$'],
+        ['dollar', '$'],
+        ['number', '123'],
+    ]
+    groups, extra = group(tokens, patterns)
     assert not extra
-    assert groups == [list('abcdef')]
+    assert groups == [['dollar', 'dollar', 'number']]
 
 
 def test_group_multiple(patterns):
-    groups, extra = group(
-        'defabcabcdefabc',
-        patterns,
-    )
-    expected = [list('def'), list('abc'),
-                list('abcdef'), list('abc')]
+    tokens = [
+        ['dollar', '$'],
+        ['dollar', '$'],
+        ['number', '123'],
+        ['dollar', '$'],
+        ['number', '123'],
+    ]
+    groups, extra = group(tokens, patterns)
     assert not extra
-    assert groups == expected
+    assert groups == [
+        ['dollar', 'dollar', 'number'],
+        ['dollar', 'number'],
+    ]

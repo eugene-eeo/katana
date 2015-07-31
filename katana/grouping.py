@@ -3,7 +3,8 @@ def group(tokens, patterns):
     max_idx = len(tokens) - 1
     b = []
     r = []
-    for idx, t in enumerate(tokens):
+    for idx, d in enumerate(tokens):
+        t, _ = d
         b.append(t)
         p = patterns.pos(b)
         if b not in p:
@@ -19,7 +20,7 @@ def group(tokens, patterns):
         # we'll use it. This is to ensure that the
         # longer patterns do not get skipped.
         if max_idx >= (idx + 1):
-            p2 = patterns.pos(b + [tokens[idx+1]])
+            p2 = patterns.pos(b + [tokens[idx+1][0]])
             if p2 and len(p2) < len(p):
                 continue
             if not p2:

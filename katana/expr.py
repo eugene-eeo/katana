@@ -1,4 +1,8 @@
 import re
+from collections import namedtuple
+
+
+Token = namedtuple('Token', 'name,value')
 
 
 class Expr(object):
@@ -11,7 +15,7 @@ class Expr(object):
         yield lambda _, token: self.on_match(token)
 
     def on_match(self, string):
-        return [self.name, string]
+        return Token(self.name, string)
 
 
 class Scanner(object):

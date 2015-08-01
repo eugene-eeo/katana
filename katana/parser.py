@@ -3,8 +3,7 @@ def group_tokens(tokens, patterns):
     b = []
     r = []
     for idx, d in enumerate(tokens):
-        t, _ = d
-        b.append(t)
+        b.append(d.name)
         p = patterns.pos(b)
         if b not in p:
             continue

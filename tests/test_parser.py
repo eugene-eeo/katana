@@ -1,4 +1,5 @@
 import pytest
+from katana.expr import Token
 from katana.parser import group_tokens
 from katana.trie import Trie
 
@@ -13,32 +14,32 @@ def patterns():
 
 def test_group_tokens_simple(patterns):
     tokens = [
-        ['dollar', '$'],
-        ['number', '123'],
+        Token('dollar', '$'),
+        Token('number', '123'),
     ]
     groups, extra = group_tokens(tokens, patterns)
     assert not extra
-    assert groups == [['dollar', 'number']]
+    assert groups == [[t.name for t in tokens]]
 
 
 def test_group_tokens_prefers_longest(patterns):
     tokens = [
-        ['dollar', '$'],
-        ['number', '123'],
-        ['number', '123'],
+        Token('dollar', '$'),
+        Token('number', '123'),
+        Token('number', '123'),
     ]
     groups, extra = group_tokens(tokens, patterns)
     assert not extra
-    assert groups == [['dollar', 'number', 'number']]
+    assert groups == [[t.name for t in tokens]]
 
 
 def test_group_tokens_multiple(patterns):
     tokens = [
-        ['dollar', '$'],
-        ['number', '123'],
-        ['number', '123'],
-        ['dollar', '$'],
-        ['number', '123'],
+        Token('dollar', '$'),
+        Token('number', '123'),
+        Token('number', '123'),
+        Token('dollar', '$'),
+        Token('number', '123'),
     ]
     groups, extra = group_tokens(tokens, patterns)
     assert not extra

@@ -1,5 +1,5 @@
 import pytest
-from katana.grouping import group_tokens
+from katana.parser import group_tokens
 from katana.trie import Trie
 
 

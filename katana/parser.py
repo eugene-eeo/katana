@@ -11,7 +11,7 @@ def group_tokens(tokens, patterns):
             continue
 
         if len(p) == 1 or idx == max_idx:
-            r.append(tb)
+            yield tb
             nb = []
             tb = []
             continue
@@ -26,7 +26,8 @@ def group_tokens(tokens, patterns):
             if p2 and len(p2) < len(p):
                 continue
             if not p2:
-                r.append(tb)
+                yield tb
                 nb = []
                 tb = []
-    return r, nb
+    if nb:
+        raise ValueError

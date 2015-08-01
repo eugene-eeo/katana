@@ -24,16 +24,14 @@ class Grouper(object):
             self.index[tuple(exprs)] = name
             self.trie.insert(exprs)
 
+    def get_group(self, tokens):
+        names = tuple(t.name for t in tokens)
+        group_name = self.index[names]
+        return Group(
+            group_name,
+            tokens,
+        )
+
     def group(self, tokens):
-        r = []
-        groups, extra = group_tokens(tokens, self.trie)
-        if extra:
-            raise ValueError
-        for tokens in groups:
-            names = tuple(t.name for t in tokens)
-            group_name = self.index[names]
-            r.append(Group(
-                group_name,
-                tokens,
-                ))
-        return r
+        for each in group_tokens(tokens, self.trie):
+            yield self.get_group(each)

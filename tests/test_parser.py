@@ -17,9 +17,7 @@ def test_group_tokens_simple(patterns):
         Token('dollar', '$'),
         Token('number', '123'),
     ]
-    groups, extra = group_tokens(tokens, patterns)
-    assert not extra
-    assert groups == [tokens]
+    assert list(group_tokens(tokens, patterns)) == [tokens]
 
 
 def test_group_tokens_prefers_longest(patterns):
@@ -28,9 +26,7 @@ def test_group_tokens_prefers_longest(patterns):
         Token('number', '123'),
         Token('number', '123'),
     ]
-    groups, extra = group_tokens(tokens, patterns)
-    assert not extra
-    assert groups == [tokens]
+    assert list(group_tokens(tokens, patterns)) == [tokens]
 
 
 def test_group_tokens_multiple(patterns):
@@ -41,9 +37,13 @@ def test_group_tokens_multiple(patterns):
         Token('dollar', '$'),
         Token('number', '123'),
     ]
-    groups, extra = group_tokens(tokens, patterns)
-    assert not extra
-    assert groups == [
+    assert list(group_tokens(tokens, patterns)) == [
         tokens[0:3],
         tokens[3:5],
     ]
+
+
+def test_group_extra(patterns):
+    tokens = [Token('dollar', '$')]
+    with pytest.raises(ValueError):
+        list(group_tokens(tokens, patterns))

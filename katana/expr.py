@@ -6,17 +6,18 @@ class Expr(object):
         self.name = name
         self.regex = regex
 
+    def __iter__(self):
+        yield self.regex
+        yield lambda _, token: self.on_match(token)
+
     def on_match(self, string):
         return [self.name, string]
-
-    def callback(self, _, string):
-        return self.on_match(string)
 
 
 class Scanner(object):
     def __init__(self, exprs):
         self.scanner = re.Scanner([
-            (e.regex, e.callback) for e in exprs
+            tuple(e) for e in exprs
         ])
 
     def match(self, string):

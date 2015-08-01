@@ -9,14 +9,14 @@ class Expr(object):
     def on_match(self, string):
         return [self.name, string]
 
-    def scanner_callback(self, _, string):
+    def callback(self, _, string):
         return self.on_match(string)
 
 
 class Scanner(object):
     def __init__(self, exprs):
         self.scanner = re.Scanner([
-            (e.regex, e.scanner_callback) for e in exprs
+            (e.regex, e.callback) for e in exprs
         ])
 
     def match(self, string):

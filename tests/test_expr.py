@@ -20,14 +20,14 @@ def scanner():
     ])
 
 
-def test_scanner_match_full(scanner):
-    assert scanner.match('123') == [Token('number', '123')]
-    assert scanner.match('$123') == [
+def test_scanner_scan_full(scanner):
+    assert scanner.scan('123') == [Token('number', '123')]
+    assert scanner.scan('$123') == [
         Token('dollar', '$'),
         Token('number', '123'),
     ]
 
 
-def test_scanner_match_partial(scanner):
+def test_scanner_scan_partial(scanner):
     with pytest.raises(ValueError):
-        scanner.match('abc')
+        scanner.scan('abc')

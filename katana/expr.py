@@ -24,7 +24,7 @@ class Scanner(object):
             tuple(e) for e in exprs
         ])
 
-    def match(self, string):
+    def scan(self, string):
         tokens, extra = self.scanner.scan(string)
         if extra:
             raise ValueError

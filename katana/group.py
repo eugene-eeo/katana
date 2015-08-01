@@ -6,7 +6,7 @@ from katana.parser import group_tokens
 Group = namedtuple('Group', 'name,tokens')
 
 
-class Pattern(object):
+class ExprGroup(object):
     def __init__(self, name, exprs):
         self.name = name
         self.exprs = tuple(exprs)

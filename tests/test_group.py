@@ -1,12 +1,12 @@
 import pytest
 from katana.expr import Token
-from katana.group import Pattern, Group, Grouper
+from katana.group import ExprGroup, Group, Grouper
 
 
 @pytest.fixture
 def grouper():
     return Grouper([
-        Pattern('usd', ['dollar', 'number'])
+        ExprGroup('usd', ['dollar', 'number'])
     ])
 
 

@@ -24,9 +24,11 @@ class Grouper(object):
             self.index[tuple(exprs)] = name
             self.trie.insert(exprs)
 
-    def parse(self, tokens):
+    def group(self, tokens):
         r = []
-        groups, _ = group_tokens(tokens, self.trie)
+        groups, extra = group_tokens(tokens, self.trie)
+        if extra:
+            raise ValueError
         for tokens in groups:
             names = tuple(t.name for t in tokens)
             group_name = self.index[names]

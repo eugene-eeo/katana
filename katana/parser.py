@@ -7,6 +7,9 @@ def group_tokens(tokens, patterns):
         nb.append(t.name)
         tb.append(t)
         p = patterns.pos(nb)
+        if not p:
+            raise ValueError
+
         if nb not in p:
             continue
 

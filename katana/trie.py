@@ -18,15 +18,18 @@ def longest(tree):
 
 
 class Trie(object):
-    def __init__(self, data):
+    def __init__(self, data=()):
         self.tree = {}
         for item in data:
-            t = self.tree
-            for k in item:
-                if k not in t:
-                    t[k] = {}
-                t = t[k]
-            t[None] = None
+            self.insert(item)
+
+    def insert(self, seq):
+        t = self.tree
+        for k in seq:
+            if k not in t:
+                t[k] = {}
+            t = t[k]
+        t[None] = None
 
     def pos(self, seq):
         t = self.tree

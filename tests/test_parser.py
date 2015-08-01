@@ -19,7 +19,7 @@ def test_group_tokens_simple(patterns):
     ]
     groups, extra = group_tokens(tokens, patterns)
     assert not extra
-    assert groups == [[t.name for t in tokens]]
+    assert groups == [tokens]
 
 
 def test_group_tokens_prefers_longest(patterns):
@@ -30,7 +30,7 @@ def test_group_tokens_prefers_longest(patterns):
     ]
     groups, extra = group_tokens(tokens, patterns)
     assert not extra
-    assert groups == [[t.name for t in tokens]]
+    assert groups == [tokens]
 
 
 def test_group_tokens_multiple(patterns):
@@ -44,6 +44,6 @@ def test_group_tokens_multiple(patterns):
     groups, extra = group_tokens(tokens, patterns)
     assert not extra
     assert groups == [
-        ['dollar', 'number', 'number'],
-        ['dollar', 'number'],
+        tokens[0:3],
+        tokens[3:5],
     ]

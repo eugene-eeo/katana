@@ -1,16 +1,19 @@
 def group_tokens(tokens, patterns):
     max_idx = len(tokens) - 1
-    b = []
+    tb = []
+    nb = []
     r = []
-    for idx, d in enumerate(tokens):
-        b.append(d.name)
-        p = patterns.pos(b)
-        if b not in p:
+    for idx, t in enumerate(tokens):
+        nb.append(t.name)
+        tb.append(t)
+        p = patterns.pos(nb)
+        if nb not in p:
             continue
 
         if len(p) == 1 or idx == max_idx:
-            r.append(b)
-            b = []
+            r.append(tb)
+            nb = []
+            tb = []
             continue
 
         # if we have more tokens and using the next
@@ -18,10 +21,12 @@ def group_tokens(tokens, patterns):
         # we'll use it. This is to ensure that the
         # longer patterns do not get skipped.
         if max_idx >= (idx + 1):
-            p2 = patterns.pos(b + [tokens[idx+1][0]])
+            n = tokens[idx+1].name
+            p2 = patterns.pos(nb + [n])
             if p2 and len(p2) < len(p):
                 continue
             if not p2:
-                r.append(b)
-                b = []
-    return r, b
+                r.append(tb)
+                nb = []
+                tb = []
+    return r, nb

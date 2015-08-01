@@ -1,5 +1,4 @@
-def group(tokens, patterns):
-    tokens = list(tokens)
+def group_tokens(tokens, patterns):
     max_idx = len(tokens) - 1
     b = []
     r = []

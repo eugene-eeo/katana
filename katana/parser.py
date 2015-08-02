@@ -1,63 +1,56 @@
-def group_tokens(tokens, patterns):
-    max_idx = len(tokens) - 1
-    tb = []
+import re
+from collections import deque, namedtuple
+
+
+class Scanner(object):
+    def __init__(self, exprs):
+        self.scanner = re.Scanner([
+            tuple(e) for e in exprs
+        ])
+
+    def scan(self, string):
+        tokens, extra = self.scanner.scan(string)
+        if extra:
+            raise ValueError
+        return tokens
+
+
+Context = namedtuple('Context', 'tokens,buffer')
+
+
+def parse(tokens, trie):
     nb = []
-    r = []
-    for idx, t in enumerate(tokens):
+    tb = []
+    tokens = deque(tokens)
+
+    while tokens:
+        t = tokens.popleft()
         nb.append(t.name)
         tb.append(t)
-        p = patterns.pos(nb)
-        if not p:
+
+        p1 = trie.pos(nb)
+        if not p1:
             raise ValueError
 
-        if nb not in p:
+        g1 = p1[0]
+        ctx = Context(tokens, tb)
+
+        if not g1.fits(ctx):
             continue
 
-        if len(p) == 1 or idx == max_idx:
-            yield tb
-            nb = []
+        if len(p1) == 1 or max_idx == idx:
+            yield g1.callback(ctx)
             tb = []
+            nb = []
             continue
 
-        # if we have more tokens and using the next
-        # token yields a more specific result then
-        # we'll use it. This is to ensure that the
-        # longer patterns do not get skipped.
-        if max_idx >= (idx + 1):
-            n = tokens[idx+1].name
-            p2 = patterns.pos(nb + [n])
-            if p2 and len(p2) < len(p):
-                continue
-            if not p2:
-                yield tb
-                nb = []
-                tb = []
+        t2 = tokens[idx+1]
+        p2 = trie.pos(nb + [t2.name])
+        if p2 and len(p2) < len(p1):
+            continue
+        if not p2:
+            yield g1.callback(ctx)
+            tb = []
+            nb = []
     if nb:
         raise ValueError
-
-
-class State(object):
-    def __init__(self, name, states):
-        self.name = name
-        self.states = {}
-        self.update(states)
-
-    def check(self, group):
-        if group.name in self.states:
-            return self.states[group.name]
-        raise ValueError
-
-    def update(self, states):
-        for item in states:
-            self.add(item)
-
-    def add(self, state):
-        self.states[state.name] = state
-
-
-def parse_groups(groups, state):
-    p = []
-    for group in groups:
-        state = state.check(group)
-        p.append([state, group])
-    return p

@@ -3,33 +3,31 @@ from collections import deque
 
 def longest(tree):
     if tree is None:
-        return []
-    r = []
+        return
     q = deque([([], tree)])
     while q:
         p, t = q.popleft()
         for k in t:
             if k is None:
-                r.append(p)
+                yield t[k]
                 continue
             d = p + [k], t[k]
             q.append(d)
-    return r
 
 
 class Trie(object):
     def __init__(self, data=()):
         self.tree = {}
         for item in data:
-            self.insert(item)
+            self.insert(item, item)
 
-    def insert(self, seq):
+    def insert(self, seq, end=None):
         t = self.tree
         for k in seq:
             if k not in t:
                 t[k] = {}
             t = t[k]
-        t[None] = None
+        t[None] = end
 
     def pos(self, seq):
         t = self.tree
@@ -40,5 +38,5 @@ class Trie(object):
                 return r
             b.append(item)
             t = t[item]
-        r.extend(b + k for k in longest(t))
+        r.extend(longest(t))
         return r

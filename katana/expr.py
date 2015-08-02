@@ -12,7 +12,7 @@ class Expr(object):
         self.name = name
         self.regex = regex
         self.callback = (callback or
-                         lambda _, token: Token(self.name, token))
+                         (lambda _, token: Token(self.name, token)))
 
     def __iter__(self):
         yield self.regex
@@ -28,7 +28,7 @@ class Pattern(object):
         for item in self.exprs:
             item.parent = self
         self.callback = (callback or
-                         lambda ctx: Group(self.name, ctx.buffer))
+                         (lambda ctx: Group(self.name, ctx.buffer)))
 
     def fits(self, ctx):
         return len(self.exprs) == len(ctx.buffer)

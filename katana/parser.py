@@ -25,26 +25,28 @@ def parse(tokens, trie):
         nb.append(t.name)
         tb.append(t)
 
-        p0 = trie.pos(nb)
-        if not p0:
+        p1 = trie.pos(nb)
+        if not p1:
             raise ValueError
 
-        g0 = p[0]
-        ok = g0.fits(tb)
+        g1 = p1[0]
 
-        if len(p0) == 1 and ok:
-            yield g0.callback(tb)
+        if not g1.fits(tb):
+            continue
+
+        if len(p1) == 1 or max_idx == idx:
+            yield g1.callback(tb)
             tb = []
             nb = []
             continue
 
-        if idx < max_idx:
-            t1 = tokens[idx+1]
-            t2 = trie.pos(nb + [t1.name])
-            if not t2 and ok:
-                yield g0.callback(tb)
-                tb = []
-                nb = []
-                continue
+        t2 = tokens[idx+1]
+        p2 = trie.pos(nb + [t2.name])
+        if p2 and len(p2) < len(p1):
+            continue
+        if not p2:
+            yield g1.callback(tb)
+            tb = []
+            nb = []
     if nb:
         raise ValueError

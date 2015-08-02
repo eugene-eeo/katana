@@ -19,11 +19,11 @@ class Expr(object):
 
 
 class Pattern(object):
-    def __init__(self, name, exprs, capture=True callback=None):
+    def __init__(self, name, exprs, capture=True, callback=None):
         self.name = name
         self.exprs = tuple(exprs)
         if callback is None:
-            callback = (lambda tb: tb if not capture else
+            callback = ((lambda tb: tb) if not capture else
                         lambda tb: Group(self.name, tb))
         self.callback = callback
 

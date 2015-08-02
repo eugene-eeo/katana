@@ -1,5 +1,6 @@
 import re
 from collections import deque, namedtuple
+from katana.trie import Trie
 
 
 class Scanner(object):
@@ -54,3 +55,23 @@ def parse(tokens, trie):
             nb = []
     if nb:
         raise ValueError
+
+
+def shiftreduce(groups, patterns):
+    d = {k.name: k for k in patterns}
+    q = deque([groups])
+    while q:
+        curr = list(q.popleft())
+        pats = set()
+        for g in curr:
+            p = d[g.name].parent
+            pats.add(p)
+            buff.append(g)
+
+        if not pats:
+            return curr
+
+        trie = Trie()
+        for item in pats:
+            item.resolve(trie)
+        q.append(parse(curr, trie))

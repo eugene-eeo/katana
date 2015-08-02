@@ -6,12 +6,13 @@ Group = namedtuple('Group', 'name,data')
 
 
 class Expr(object):
+    parent = None
+
     def __init__(self, name, regex, callback=None):
         self.name = name
         self.regex = regex
-        if callback is None:
-            callback = lambda _, token: Token(self.name, token)
-        self.callback = callback
+        self.callback = (callback or
+                         lambda _, token: Token(self.name, token))
 
     def __iter__(self):
         yield self.regex
@@ -19,15 +20,21 @@ class Expr(object):
 
 
 class Pattern(object):
+    parent = None
+
     def __init__(self, name, exprs, callback=None):
         self.name = name
         self.exprs = tuple(exprs)
-        if callback is None:
-            callback = lambda ctx: Group(self.name, ctx.buffer)
-        self.callback = callback
+        for item in self.exprs:
+            item.parent = self
+        self.callback = (callback or
+                         lambda ctx: Group(self.name, ctx.buffer))
 
     def fits(self, ctx):
-        return (self.exprs == tuple(t.name for t in ctx.buffer))
+        return len(self.exprs) == len(ctx.buffer)
+
+    def resolve(self, trie):
+        trie.insert([b.name for b in self.exprs], self)
 
 
 class Repeat(Pattern):

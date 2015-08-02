@@ -28,3 +28,22 @@ class Pattern(object):
 
     def fits(self, ctx):
         return (self.exprs == tuple(t.name for t in ctx.buffer))
+
+
+class Repeat(Pattern):
+    def __init__(self, name, expr):
+        def callback(ctx):
+            buff = []
+            while ctx.tokens:
+                t = ctx.tokens.popleft()
+                if t.name != expr:
+                    ctx.tokens.appendleft(t)
+                    break
+                buff.append(t)
+            return Group(name, ctx.buffer + buff)
+        Pattern.__init__(
+            self,
+            name,
+            [expr],
+            callback
+        )

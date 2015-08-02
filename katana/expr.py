@@ -1,31 +1,31 @@
-import re
 from collections import namedtuple
 
 
-Token = namedtuple('Token', 'name,value')
+Token = namedtuple('Token', 'name,data')
+Group = namedtuple('Group', 'name,data')
 
 
 class Expr(object):
-    def __init__(self, name, regex):
+    def __init__(self, name, regex, callback=None):
         self.name = name
         self.regex = regex
+        if callback is None:
+            callback = lambda _, token: Token(self.name, token)
+        self.callback = callback
 
     def __iter__(self):
         yield self.regex
-        yield lambda _, token: self.on_match(token)
-
-    def on_match(self, string):
-        return Token(self.name, string)
+        yield self.callback
 
 
-class Scanner(object):
-    def __init__(self, exprs):
-        self.scanner = re.Scanner([
-            tuple(e) for e in exprs
-        ])
+class Pattern(object):
+    def __init__(self, name, exprs, capture=True callback=None):
+        self.name = name
+        self.exprs = tuple(exprs)
+        if callback is None:
+            callback = (lambda tb: tb if not capture else
+                        lambda tb: Group(self.name, tb))
+        self.callback = callback
 
-    def scan(self, string):
-        tokens, extra = self.scanner.scan(string)
-        if extra:
-            raise ValueError
-        return tokens
+    def fits(self, tokens):
+        return (self.exprs == tuple(t.name for t in tokens))

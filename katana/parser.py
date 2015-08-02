@@ -38,7 +38,7 @@ def parse(tokens, trie):
         if not g1.fits(ctx):
             continue
 
-        if len(p1) == 1 or max_idx == idx:
+        if len(p1) == 1 or not tokens:
             yield g1.callback(ctx)
             tb = []
             nb = []

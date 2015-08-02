@@ -28,4 +28,4 @@ Todo
 ----
 
 - Refactor Trie and grouping machinery.
-- More abstract quantifiers such as ``Sequence``, ``Any``.
+- Implement ``Any`` quantifier.

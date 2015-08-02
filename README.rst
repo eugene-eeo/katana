@@ -29,7 +29,3 @@ Todo
 
 - Refactor Trie and grouping machinery.
 - More abstract quantifiers such as ``Sequence``, ``Any``.
-- Abstractions around ``Pattern`` objects. Currently the
-  only way to make use of the multi-stage parser is manually,
-  where a new stage is needed to be made for each complex
-  group.

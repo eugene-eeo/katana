@@ -19,13 +19,12 @@ class Expr(object):
 
 
 class Pattern(object):
-    def __init__(self, name, exprs, capture=True, callback=None):
+    def __init__(self, name, exprs, callback=None):
         self.name = name
         self.exprs = tuple(exprs)
         if callback is None:
-            callback = ((lambda tb: tb) if not capture else
-                        lambda tb: Group(self.name, tb))
+            callback = lambda ctx: Group(self.name, ctx.buffer)
         self.callback = callback
 
-    def fits(self, tokens):
-        return (self.exprs == tuple(t.name for t in tokens))
+    def fits(self, ctx):
+        return (self.exprs == tuple(t.name for t in ctx.buffer))

@@ -1,5 +1,5 @@
 import re
-from katana.trie import Trie
+from collections import deque, namedtuple
 
 
 class Scanner(object):
@@ -15,13 +15,16 @@ class Scanner(object):
         return tokens
 
 
+Context = namedtuple('Context', 'tokens,buffer')
+
+
 def parse(tokens, trie):
     nb = []
     tb = []
-    tokens = list(tokens)
-    max_idx = len(tokens) - 1
+    tokens = deque(tokens)
 
-    for idx, t in enumerate(tokens):
+    while tokens:
+        t = tokens.popleft()
         nb.append(t.name)
         tb.append(t)
 
@@ -30,12 +33,13 @@ def parse(tokens, trie):
             raise ValueError
 
         g1 = p1[0]
+        ctx = Context(tokens, tb)
 
-        if not g1.fits(tb):
+        if not g1.fits(ctx):
             continue
 
         if len(p1) == 1 or max_idx == idx:
-            yield g1.callback(tb)
+            yield g1.callback(ctx)
             tb = []
             nb = []
             continue
@@ -45,7 +49,7 @@ def parse(tokens, trie):
         if p2 and len(p2) < len(p1):
             continue
         if not p2:
-            yield g1.callback(tb)
+            yield g1.callback(ctx)
             tb = []
             nb = []
     if nb:

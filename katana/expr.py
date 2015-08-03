@@ -31,7 +31,8 @@ class Pattern(object):
                          (lambda ctx: Group(self.name, ctx.buffer)))
 
     def fits(self, ctx):
-        return len(self.exprs) == len(ctx.buffer)
+        return ([g.name for g in self.exprs] ==
+                [g.name for g in ctx.buffer])
 
     def resolve(self, trie):
         trie.insert([b.name for b in self.exprs], self)
@@ -39,11 +40,12 @@ class Pattern(object):
 
 class Repeat(Pattern):
     def __init__(self, name, expr):
+        expr_name = expr.name
         def callback(ctx):
             buff = []
             while ctx.tokens:
                 t = ctx.tokens.popleft()
-                if t.name != expr:
+                if t.name != expr_name:
                     ctx.tokens.appendleft(t)
                     break
                 buff.append(t)

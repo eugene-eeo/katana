@@ -1,6 +1,12 @@
 from katana.storage import Pair, Node, prepare
 
 
+def null():
+    def fn(pair):
+        return pair
+    return fn
+
+
 def term(token):
     def fn(pair):
         nodes, seq = pair

@@ -1,6 +1,14 @@
 import pytest
 from katana.storage import Node, Pair, prepare
-from katana.term import term, sequence, group, repeat, option
+from katana.term import term, sequence, group, repeat, option, null
+
+
+def test_null():
+    t = null()
+    n = Node('k', 'data')
+    given = prepare(n)
+    after = given
+    assert t(given) == after
 
 
 def test_term():

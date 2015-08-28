@@ -6,7 +6,7 @@ def test_term():
     t = term('k')
     n = Node('k', 'data')
     given = Pair([], [n])
-    after = Pair([Node(t, [n])], [])
+    after = Pair([n], [])
     assert t(given) == after
 
 
@@ -32,7 +32,7 @@ def test_sequence():
     s = sequence(a, b)
 
     given = Pair([], [na, nb])
-    after = Pair([Node(a, [na]), Node(b, [nb])], [])
+    after = Pair([na, nb], [])
     assert s(given) == after
 
 

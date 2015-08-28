@@ -15,8 +15,7 @@ def term(token):
         head = seq[0]
         if head.term == token:
             tail = seq[1:]
-            node = Node(fn, [head])
-            return Pair(nodes + [node], tail)
+            return Pair(nodes + [head], tail)
         raise ValueError
     return fn
 

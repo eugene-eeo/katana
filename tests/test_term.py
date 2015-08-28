@@ -3,41 +3,36 @@ from katana.storage import Node, Pair, prepare
 from katana.term import term, null
 
 
-@pytest.fixture
-def kterm():
-    return term('k')
+K = term('k')
+N = Node('k', 'data')
+B = Node('b', 'data')
 
 
 def test_null():
-    n = Node('k', 'data')
-    given = prepare([n])
+    given = prepare([N])
     after = given
     assert null(given) == after
 
 
-def test_term(kterm):
-    n = Node('k', 'data')
-    given = prepare([n])
-    after = Pair([n], [])
-    assert kterm(given) == after
+def test_term():
+    given = prepare([N])
+    after = Pair([N], [])
+    assert K(given) == after
 
 
-def test_term_multiple(kterm):
-    n = Node('k', 'data')
-    b = Node('b', 'data')
-    given = prepare([n,b])
-    after = Pair([n], [b])
-    assert kterm(given) == after
+def test_term_multiple():
+    given = prepare([N,B])
+    after = Pair([N], [B])
+    assert K(given) == after
 
 
-def test_term_no_match(kterm):
-    n = Node('g', 'data')
-    given = prepare([n])
+def test_term_no_match():
+    given = prepare([B])
     with pytest.raises(ValueError):
-        kterm(given)
+        K(given)
 
 
-def test_term_empty_seq(kterm):
+def test_term_empty_seq():
     given = prepare([])
     with pytest.raises(ValueError):
-        kterm(given)
+        K(given)

@@ -1,5 +1,5 @@
 from katana.storage import Node, Pair, prepare
-from katana.term import term, null
+from katana.term import null
 
 
 def sequence(*terms):

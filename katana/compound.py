@@ -12,6 +12,8 @@ def sequence(*terms):
 
 def group(expr):
     def fn(pair):
+        # we use an empty pair to 'capture' the nodes
+        # produced by the grouped exprs.
         p2 = prepare(pair.tail)
         p2 = expr(p2)
         node = Node(fn, p2.nodes)

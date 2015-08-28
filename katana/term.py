@@ -1,10 +1,8 @@
 from katana.storage import Pair, Node, prepare
 
 
-def null():
-    def fn(pair):
-        return pair
-    return fn
+def null(pair):
+    return pair
 
 
 def term(token):

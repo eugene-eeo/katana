@@ -9,11 +9,10 @@ def kterm():
 
 
 def test_null():
-    t = null()
     n = Node('k', 'data')
     given = prepare([n])
     after = given
-    assert t(given) == after
+    assert null(given) == after
 
 
 def test_term(kterm):

@@ -42,4 +42,4 @@ def option(*choices):
 
 
 def maybe(expr):
-    return option(expr, null())
+    return option(expr, null)

@@ -4,56 +4,48 @@ from katana.compound import sequence, group, repeat, option, maybe
 from katana.term import term
 
 
-A = term('a')
-B = term('b')
-C = term('c')
-node = lambda x: Node(x, 'data')
+Ta = term('a')
+Tb = term('b')
+Tc = term('c')
+Na = Node('a', 'data')
+Nb = Node('b', 'data')
+Nc = Node('c', 'data')
 
 
 def test_sequence():
-    na = node('a')
-    nb = node('b')
-    s = sequence(A, B)
+    s = sequence(Ta, Tb)
 
-    given = prepare([na, nb])
-    after = Pair([na, nb], [])
+    given = prepare([Na, Nb])
+    after = Pair([Na, Nb], [])
     assert s(given) == after
 
 
 def test_group():
-    n = node('a')
-    g = group(A)
-    given = prepare([n])
-    after = Pair([Node(g, [n])], [])
+    g = group(Ta)
+    given = prepare([Na])
+    after = Pair([Node(g, [Na])], [])
     assert g(given) == after
 
 
 def test_repeat():
-    n = node('a')
-    r = repeat(A)
-    given = prepare([n]*10)
-    after = Pair([n]*10, [])
+    r = repeat(Ta)
+    given = prepare([Na]*10)
+    after = Pair([Na]*10, [])
     assert r(given) == after
 
 
 def test_option():
-    a = node('a')
-    b = node('b')
-    c = node('c')
-    opt = option(A, B, C)
-    for item in [a, b]:
-        assert opt(prepare([item])) == Pair([item], [])
+    opt = option(Ta, Tb, Tc)
+    for node in [Na, Nb]:
+        assert opt(prepare([node])) == Pair([node], [])
 
 
 def test_option_empty():
-    c = node('c')
     with pytest.raises(ValueError):
-        assert option(A, B)(prepare([c]))
+        assert option(Ta, Tb)(prepare([Nc]))
 
 
 def test_maybe():
-    m = maybe(A)
-    a = node('a')
-    b = node('b')
-    assert m(prepare([b])) == Pair([], [b])
-    assert m(prepare([a])) == Pair([a], [])
+    m = maybe(Ta)
+    assert m(prepare([Nb])) == Pair([], [Nb])
+    assert m(prepare([Na])) == Pair([Na], [])

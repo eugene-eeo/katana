@@ -6,10 +6,11 @@ from katana.storage import Node
 RExpr = namedtuple('RExpr', ['regex', 'callback'])
 
 
-def rexpr(name, regex):
+def rexpr(regex):
     def callback(scanner, token):
-        return Node(name, token)
-    return RExpr(regex, callback)
+        return Node(r, token)
+    r = RExpr(regex, callback)
+    return r
 
 
 def scan(rexprs, text):

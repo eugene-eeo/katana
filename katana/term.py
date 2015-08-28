@@ -1,4 +1,4 @@
-from katana.storage import Pair
+from katana.utils import Pair
 
 
 def null(pair):

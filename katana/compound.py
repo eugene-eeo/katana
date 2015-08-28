@@ -1,4 +1,4 @@
-from katana.storage import Node, Pair, prepare
+from katana.utils import Node, Pair, prepare
 from katana.term import null
 
 

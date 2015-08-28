@@ -1,6 +1,6 @@
 import pytest
 from katana.scanner import rexpr, scan
-from katana.storage import Node
+from katana.utils import Node
 
 
 dollar = rexpr(r'\$')

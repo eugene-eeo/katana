@@ -24,12 +24,13 @@ Then the parsing phase:
 .. code-block:: python
 
     from katana.term import term
-    from katana.term import sequence
+    from katana.compound import sequence
+    from katana.utils import parse
 
     dollar_term = term(dollar)
     number_term = term(number)
+    usd = sequence(dollar_term, number_term)
 
-    parser = sequence(dollar_term, number_term)
-    parser(tokens)
+    parse(usd, tokens)
 
 .. _pyrsistent: https://github.com/tobgu/pyrsistent

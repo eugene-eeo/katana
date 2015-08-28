@@ -1,6 +1,6 @@
 import pytest
-from katana.storage import Node, Pair
-from katana.term import term, sequence, group, repeat
+from katana.storage import Node, Pair, prepare
+from katana.term import term, sequence, group, repeat, option
 
 
 def test_term():
@@ -54,3 +54,23 @@ def test_repeat():
     given = Pair([], [n]*10)
     after = Pair([n]*10, [])
     assert r(given) == after
+
+
+def test_option():
+    a = term('a')
+    b = term('b')
+    c = term('c')
+    na = Node('a', 'data')
+    nb = Node('b', 'data')
+    nc = Node('c', 'data')
+    opt = option(a, b, c)
+    for item in [na, nb]:
+        assert opt(prepare([item])) == Pair([item], [])
+
+
+def test_option_empty():
+    a = term('a')
+    b = term('b')
+    nc = Node('c', 'data')
+    with pytest.raises(ValueError):
+        assert option(a, b)(prepare([nc]))

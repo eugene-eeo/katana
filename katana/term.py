@@ -40,3 +40,14 @@ def repeat(expr):
                 break
         return pair
     return fn
+
+
+def option(*choices):
+    def fn(pair):
+        for item in choices:
+            try:
+                return item(pair)
+            except ValueError:
+                pass
+        raise ValueError
+    return fn

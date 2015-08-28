@@ -12,6 +12,8 @@ def prepare(seq):
 def term(token):
     def fn(pair):
         nodes, seq = pair
+        if not seq:
+            raise ValueError
         head = seq[0]
         if head.term == token:
             tail = seq[1:]

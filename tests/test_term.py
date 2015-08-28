@@ -18,6 +18,13 @@ def test_term_no_match():
         t(given)
 
 
+def test_term_empty_seq():
+    t = term('k')
+    given = Pair([], [])
+    with pytest.raises(ValueError):
+        t(given)
+
+
 def test_prepare():
     given = ['k']
     after = Pair([], given)
@@ -41,5 +48,5 @@ def test_group():
     n = Node('a', 'data')
     g = group(a)
     given = Pair([], [n])
-    after = Pair([Node(g, a(given).nodes)], [])
+    after = Pair([Node(g, [n])], [])
     assert g(given) == after

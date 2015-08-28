@@ -4,12 +4,8 @@ from katana.compound import sequence, group, repeat, option, maybe
 from katana.term import term
 
 
-Ta = term('a')
-Tb = term('b')
-Tc = term('c')
-Na = Node('a', 'data')
-Nb = Node('b', 'data')
-Nc = Node('c', 'data')
+Ta, Tb, Tc = [term(k) for k in 'abc']
+Na, Nb, Nc = [Node(k, 'data') for k in 'abc']
 
 
 def test_sequence():

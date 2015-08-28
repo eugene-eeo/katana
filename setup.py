@@ -37,6 +37,9 @@ setup(
     include_package_data=True,
     package_data={'katana': ['LICENSE', 'README.rst']},
     packages=['katana'],
+    install_requires=[
+        'pyrsistent==0.11.1',
+    ]
     tests_require=['pytest'],
     cmdclass={'test': PyTest},
     platforms='any',

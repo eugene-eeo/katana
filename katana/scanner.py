@@ -1,6 +1,6 @@
 from re import Scanner
 from collections import namedtuple
-from katana.storage import Node, prepare
+from katana.storage import Node
 
 
 RExpr = namedtuple('RExpr', ['regex', 'callback'])

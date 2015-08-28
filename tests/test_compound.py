@@ -11,7 +11,7 @@ def test_sequence():
     nb = Node('b', 'data')
     s = sequence(a, b)
 
-    given = Pair([], [na, nb])
+    given = prepare([na, nb])
     after = Pair([na, nb], [])
     assert s(given) == after
 
@@ -20,7 +20,7 @@ def test_group():
     a = term('a')
     n = Node('a', 'data')
     g = group(a)
-    given = Pair([], [n])
+    given = prepare([n])
     after = Pair([Node(g, [n])], [])
     assert g(given) == after
 
@@ -29,7 +29,7 @@ def test_repeat():
     a = term('a')
     n = Node('a', 'data')
     r = repeat(a)
-    given = Pair([], [n]*10)
+    given = prepare([n]*10)
     after = Pair([n]*10, [])
     assert r(given) == after
 

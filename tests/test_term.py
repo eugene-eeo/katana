@@ -19,6 +19,15 @@ def test_term():
     assert t(given) == after
 
 
+def test_term_multiple():
+    t = term('k')
+    n = Node('k', 'data')
+    b = Node('b', 'data')
+    given = prepare([n,b])
+    after = Pair([n], [b])
+    assert t(given) == after
+
+
 def test_term_no_match():
     t = term('k')
     n = Node('g', 'data')

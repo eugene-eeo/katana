@@ -46,9 +46,9 @@ def test_option():
 
 
 def test_option_empty():
-    nc = Node('c', 'data')
+    c = node('c')
     with pytest.raises(ValueError):
-        assert option(A, B)(prepare([nc]))
+        assert option(A, B)(prepare([c]))
 
 
 def test_maybe():

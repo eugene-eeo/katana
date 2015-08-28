@@ -1,4 +1,5 @@
 from katana.storage import Node, Pair, prepare
+from katana.term import term, null
 
 
 def sequence(*terms):
@@ -38,3 +39,7 @@ def option(*choices):
                 pass
         raise ValueError
     return fn
+
+
+def maybe(expr):
+    return option(expr, null())

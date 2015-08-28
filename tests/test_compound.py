@@ -1,6 +1,6 @@
 import pytest
 from katana.storage import Node, Pair, prepare
-from katana.compound import sequence, group, repeat, option
+from katana.compound import sequence, group, repeat, option, maybe
 from katana.term import term
 
 
@@ -52,3 +52,13 @@ def test_option_empty():
     nc = Node('c', 'data')
     with pytest.raises(ValueError):
         assert option(a, b)(prepare([nc]))
+
+
+def test_maybe():
+    a = term('a')
+    m = maybe(a)
+    for char, match in zip(['a', 'b'], [1, 0]):
+        node = Node(char, 'data')
+        given = prepare([node])
+        after = Pair([node], []) if match else Pair([], [node])
+        assert m(given) == after

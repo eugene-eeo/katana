@@ -2,5 +2,5 @@ Katana
 ======
 
 A razor sharp parser-combinator for Python. It's goals
-include being pluggable and easy to extend while being
-reasonably performant.
+include being composable, easy to understand, and elegant
+while being reasonably performant.

@@ -1,5 +1,6 @@
 import pytest
-from katana.term import term, prepare, Pair, Node, sequence, group
+from katana.storage import Node, Pair
+from katana.term import term, sequence, group, repeat
 
 
 def test_term():
@@ -25,12 +26,6 @@ def test_term_empty_seq():
         t(given)
 
 
-def test_prepare():
-    given = ['k']
-    after = Pair([], given)
-    assert prepare(given) == after
-
-
 def test_sequence():
     a = term('a')
     b = term('b')
@@ -50,3 +45,12 @@ def test_group():
     given = Pair([], [n])
     after = Pair([Node(g, [n])], [])
     assert g(given) == after
+
+
+def test_repeat():
+    a = term('a')
+    n = Node('a', 'data')
+    r = repeat(a)
+    given = Pair([], [n]*10)
+    after = Pair([n]*10, [])
+    assert r(given) == after

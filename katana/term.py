@@ -1,12 +1,4 @@
-from collections import namedtuple
-
-
-Node = namedtuple('Node', ['term', 'data'])
-Pair = namedtuple('Pair', ['nodes', 'tail'])
-
-
-def prepare(seq):
-    return Pair([], seq)
+from katana.storage import Pair, Node, prepare
 
 
 def term(token):
@@ -36,4 +28,15 @@ def group(expr):
         p2 = expr(p2)
         node = Node(fn, p2.nodes)
         return Pair(pair.nodes + [node], p2.tail)
+    return fn
+
+
+def repeat(expr):
+    def fn(pair):
+        while 1:
+            try:
+                pair = expr(pair)
+            except ValueError:
+                break
+        return pair
     return fn

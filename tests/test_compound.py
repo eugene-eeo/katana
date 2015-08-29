@@ -1,4 +1,5 @@
 import pytest
+from pyrsistent import v
 from katana.utils import Node, Pair, prepare
 from katana.compound import sequence, group, repeat, option, maybe
 from katana.term import term
@@ -20,6 +21,13 @@ def test_group():
     g = group(Ta)
     given = prepare([Na])
     after = Pair([Node(g, [Na])], [])
+    assert g(given) == after
+
+
+def test_group_with_prefix():
+    g = group(Ta)
+    given = Pair(v(Nb), v(Na))
+    after = Pair([Nb, Node(g, [Na])], [])
     assert g(given) == after
 
 
